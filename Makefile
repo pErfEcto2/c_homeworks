@@ -1,5 +1,2 @@
 build:
-	gcc -o app -Wall -ansi main.c
-
-clear:
-	rm app
+	gcc -o hw -Wall hw.c
