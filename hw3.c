@@ -4,7 +4,7 @@
 
 #define N 20
 
-void selectionSort(int* arr, int n) {
+void selectionSort(int arr[], int n) {
     int i, j, tmp;
     for (i = 0; i < n - 1; i++) {
         for (j = i + 1; j < n; j++) {
@@ -17,7 +17,7 @@ void selectionSort(int* arr, int n) {
     }
 }
 
-void bubbleSort(int* arr, int n) {
+void bubbleSort(int arr[], int n) {
     int i, j, tmp;
     for (i = 0; i < n; i++) {
         for (j = 0; j < n - 1; j++) {
@@ -30,7 +30,7 @@ void bubbleSort(int* arr, int n) {
     }
 }
 
-void insertionSort(int* arr, int n) {
+void insertionSort(int arr[], int n) {
     int i, j, tmp;
     for (i = 1; i < n; i++) {
         for(j = 0; j < i; j++) {
@@ -43,14 +43,19 @@ void insertionSort(int* arr, int n) {
     }
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char* argv[]) {
     srand(time(0));
 
     int* arr1 = malloc(sizeof(int) * N);
     int* arr2 = malloc(sizeof(int) * N);
     int* arr3 = malloc(sizeof(int) * N);
-    int i;
 
+    if (!arr1 || !arr2 || !arr3) {
+        printf("could not malloc\n");
+        exit(1);
+    }
+    
+    int i;
     for (i = 0; i < N; i++) {
         int d = rand() % 100;
         arr1[i] = d;
@@ -75,6 +80,10 @@ int main(int argc, char** argv) {
         printf("%d ", arr3[i]);
     
     printf("\n");
+
+    free(arr1);
+    free(arr2);
+    free(arr3);
 
     return 0;
 }
