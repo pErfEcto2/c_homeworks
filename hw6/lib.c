@@ -9,6 +9,27 @@ void strcopy(char dst[], char src[]) {
     *dst = '\0';
 }
 
+int strcomp(char s1[], char s2[]) {
+    do {
+        if (*s1 > *s2)
+            return 1;
+        else if (*s1 < *s2)
+            return -1;
+    } while (*s1++ != '\0' && *s2++ != '\0');
+
+    return 0;
+}
+
+void memcopy(void* dst, void* src, size_t size) {
+    char* c_dst = (char*)dst;
+    char* c_src = (char*)src;
+
+    while (c_dst != NULL && c_src != NULL && size) {
+        *(c_dst++) = *(c_src++);
+        size--;
+    }
+}
+
 void st_rand(Book* books, int n) {
     srand(time(0));
     int i, j;
