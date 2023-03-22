@@ -1,47 +1,17 @@
 #include "lib.h"
 
 
-void strcopy(char dst[], char src[]) {
-    char c;
-    for (; (c = *src) && (*src != '\0'); src++) {
-        *(dst++) = c;
-    }
-    *dst = '\0';
-}
-
-int strcomp(char s1[], char s2[]) {
-    do {
-        if (*s1 > *s2)
-            return 1;
-        else if (*s1 < *s2)
-            return -1;
-    } while (*s1++ != '\0' && *s2++ != '\0');
-
-    return 0;
-}
-
-void memcopy(void* dst, void* src, size_t size) {
-    char* c_dst = (char*)dst;
-    char* c_src = (char*)src;
-
-    while (c_dst != NULL && c_src != NULL && size) {
-        *(c_dst++) = *(c_src++);
-        size--;
-    }
-}
-
-void st_rand(Book* books, int n) {
-    srand(time(0));
+void st_rand(Book books[], int n) {
     int i, j;
     for (i = 0; i < n; i++) {
-        books[i].len = rand() % 100;
+        books[i].len = rand() % 99 + 1;
         for (j = 0; j < STR_LEN - 1; j++)
             books[i].name[j] = 'a' + rand() % 25;
         books[i].name[j + 1] = '\0';
     }
 }
 
-void st_print(Book* books, int n) {
+void st_print(Book books[], int n) {
     int i;
     for (i = 0; i < n; i++)
         printf("len: %3d; name: %s\n", books[i].len, books[i].name);
@@ -72,24 +42,20 @@ void selection_sort(Book books[], int n) {
 }
 
 Book* bin_search(Book books[], int n, int key) {
-    Book* res;
+    Book* res = NULL;
 
-    res->len = 0;
-    strcopy(res->name, "no such book");
-    int low, high = n - 1;
+    int low = 0, high = n - 1;
     
     while (low < high) {
         int mid = (int)((high + low) / 2);
 
         if (books[mid].len == key) {
-            memcpy(res, &books[mid], sizeof(Book));
+            res = &books[mid];
             break;
         }
-
         low = (books[mid].len < key) ? mid + 1: low;
         high = (books[mid].len > key) ? mid - 1: high;
     }
-    
     return res;
 }
 
@@ -100,4 +66,60 @@ void pst(Book books[], int size, int n) {
     }
     
     printf("len: %2d; name: %s\n", books[n].len, books[n].name);
+}
+
+int find_pairs(Book b1[], int n1, Book b2[], int n2) {
+    int res, i;
+    for (i = 0; i < n1; i++) {
+        Book* b_res = bin_search(b2, n2, b1[i].len);
+        if (b_res == NULL) continue;
+        res++;
+    }
+    return res;
+}
+
+void st_fprintf(Book books[], int n, char path[], char access[]) {
+    int i;
+    FILE* f = NULL;
+    if ((f = fopen(path, access)) == NULL) {
+        printf("Could not open file %s\n", path);
+        exit(3);
+    }
+
+    for (i = 0; i < n; i++) {
+        fprintf(f, "%d %s\n", books[i].len, books[i].name);
+    }
+
+    fclose(f);
+}
+
+int lines_num(char path[]) {
+    int res = 0;
+    char c;
+    FILE* f = NULL; 
+    if ((f = fopen(path, "r")) == NULL) {
+        printf("Could not open file %s\n", path);
+        exit(3);
+    }
+
+    while ((c = fgetc(f)) != EOF) {
+        if (c == '\n') res++;
+    }
+
+    fclose(f);
+    return res;
+}
+
+void st_fscanf(Book b[], int n, char path[]) {
+    int i;
+    FILE* f = NULL; 
+    if ((f = fopen(path, "r")) == NULL) {
+        printf("Could not open file %s\n", path);
+        exit(3);
+    }
+
+    for (i = 0; i < n; i++) {
+        fscanf(f, "%d %s\n", &b[i].len, b[i].name);
+    }
+    fclose(f);
 }
