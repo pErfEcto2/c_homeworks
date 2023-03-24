@@ -40,7 +40,8 @@ int main(int argc, char* argv[]) {
     printf("Element in second array: ");
     pst(books2, N, (int)(N * 0.3));
 
-    printf("\nNumber of pairs: %d\n", find_pairs(books1, N, books2, N));
+    printf("\nNumber of pairs (easy realization): %d\n", find_pairs_easy(books1, N, books2, N));
+    printf("Number of pairs (advanced realization): %d\n", find_pairs_advanced(books1, N, books2, N));
 
     st_fprintf(books1, N, "books.txt", "w");
     st_fprintf(books2, N, "books.txt", "a");
@@ -56,6 +57,7 @@ int main(int argc, char* argv[]) {
     }
 
     st_fscanf(books3, line_number, "books.txt");
+    selection_sort(books3, line_number);
 
     printf("\nThird array is:\n");
     st_print(books3, line_number);
