@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
     st_fprintf(books1, N, "books.txt", "w");
     st_fprintf(books2, N, "books.txt", "a");
 
-    int line_number = lines_num("books.txt");
+    int line_number = lines_numf("books.txt");
     printf("\nNumber of lines in books.txt is %d\n", line_number);
 
     Book* books3 = malloc(sizeof(Book) * line_number);

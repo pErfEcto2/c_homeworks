@@ -112,7 +112,7 @@ void st_fprintf(Book books[], int n, char path[], char access[]) {
     fclose(f);
 }
 
-int lines_num(char path[]) {
+int lines_numf(char path[]) {
     int res = 0;
     char c;
     FILE* f = fopen(path, "r"); 
@@ -127,6 +127,27 @@ int lines_num(char path[]) {
 
     fclose(f);
     return res;
+}
+
+int lines_num(char path[]) {
+    int res = 0, flag = 0;
+    char c;
+    FILE* f = fopen(path, "r"); 
+    if (f == NULL) {
+        printf("Could not open file %s\n", path);
+        exit(3);
+    }
+
+    while ((c = fgetc(f)) != EOF) {
+        if (c != '\n') flag = 1;
+        if (c == '\n' && flag) {
+            res++;
+            flag = 0;
+        }
+    }
+
+    fclose(f);
+    return res + flag;
 }
 
 void st_fscanf(Book b[], int n, char path[]) {

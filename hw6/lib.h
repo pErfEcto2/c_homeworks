@@ -24,5 +24,6 @@ int   matches_number(Book b[], int n, int match);
 int   find_pairs_easy(Book b1[], int n1, Book b2[], int n2);
 int   find_pairs_advanced(Book b1[], int n1, Book b2[], int n2);
 void  st_fprintf(Book books[], int n, char path[], char access[]);
+int   lines_numf(char path[]);
 int   lines_num(char path[]);
 void  st_fscanf(Book b[], int n, char path[]);
