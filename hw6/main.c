@@ -53,6 +53,8 @@ int main(int argc, char* argv[]) {
 
     if (books3 == NULL) {
         printf("could not malloc\n");
+        free(books1);
+        free(books2);
         exit(1);
     }
 

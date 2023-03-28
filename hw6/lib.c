@@ -53,6 +53,7 @@ Book* bin_search(Book books[], int n, int key) {
             res = &books[mid];
             break;
         }
+
         low = (books[mid].len < key) ? mid + 1: low;
         high = (books[mid].len > key) ? mid - 1: high;
     }
@@ -65,7 +66,7 @@ void pst(Book books[], int size, int n) {
         exit(2);
     }
     
-    printf("len: %2d; name: %s\n", books[n].len, books[n].name);
+    printf("len: %3d; name: %s\n", books[n].len, books[n].name);
 }
 
 int matches_number(Book b[], int n, int match) {
