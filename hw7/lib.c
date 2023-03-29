@@ -3,26 +3,27 @@
 
 void linked_print(LinkedList* l) {    
     while (l != NULL) {
-        printf("%d\n", l->x);
+        printf("%d %s\n", l->x, l->name);
         l = l->next;
     }
 }
 
-void add_tail(LinkedList* l, int value) {
+void add_tail(LinkedList* l, int x, char name[]) {
     if (l->next == NULL) {
         LinkedList* tmp = malloc(sizeof(LinkedList));
         
-        tmp->x = value;
+        tmp->x = x;
+        memcpy(tmp->name, name, STR_LEN);
         tmp->next = NULL;
         tmp->prev = l;
         l->next = tmp;
     }
     else {
-        add_tail(l->next, value);
+        add_tail(l->next, x, name);
     }
 }
 
-LinkedList* add_head(LinkedList* l, int value) {
+LinkedList* add_head(LinkedList* l, int x, char name[]) {
     LinkedList* tmp = malloc(sizeof(LinkedList));
 
     if (tmp == NULL)
@@ -31,7 +32,8 @@ LinkedList* add_head(LinkedList* l, int value) {
     tmp->next = l;
     l->prev = tmp;
     tmp->prev = NULL;
-    tmp->x = value;
+    tmp->x = x;
+    memcpy(tmp->name, name, STR_LEN);
     l->prev = tmp;
     return tmp;
 }
@@ -75,30 +77,36 @@ int len(LinkedList* l) {
 
 void swap(LinkedList* l, int first, int second) {
     if (first >= len(l) || second >= len(l)) exit(3);
+    int i, min, max;
+    min = (first <= second) ? first : second;
+    max = first + second - min;
+    
+    for (i = 0; i < min; i++) {
+        if (l != NULL) l = l->next;
+        else exit(2);
+    }
     LinkedList* tmp = l;
-    int i;
-    for (i = 0; i < first; i++) {
+
+    for (i = 0; i < max - min; i++) {
         if (l != NULL) l = l->next;
         else exit(2);
     }
 
-    for (i = 0; i < second; i++) {
-        if (tmp != NULL) tmp = tmp->next;
-        else exit(2);
-    }
-
-    int temp = l->x;
+    LinkedList temp = *l;
     l->x = tmp->x;
-    tmp->x = temp;
+    tmp->x = temp.x;
+    memcpy(l->name, tmp->name, STR_LEN);
+    memcpy(tmp->name, temp.name, STR_LEN);
+    
 }
 
-int get(LinkedList* l, int n) {
+LinkedList get(LinkedList* l, int n) {
     if (n > len(l)) exit(3);
     int i;
     for (i = 0; i < n; i++) {
         l = l->next;
     }
-    return l->x;
+    return *l;
 }
 
 void select_sort(LinkedList* l) {
@@ -108,7 +116,7 @@ void select_sort(LinkedList* l) {
 
     for (i = 0; i < n - 1; i++) {
         for (j = i + 1; j < n; j++) {
-            if (get(l, j) < get(l, i))
+            if (get(l, j).x < get(l, i).x)
                 swap(l, i, j);
         }
     }
@@ -118,10 +126,10 @@ void list_fprintf(LinkedList* l, char path[]) {
     FILE* f = fopen(path, "w");
     if (f == NULL)
         exit(4);
-    
     int i, n = len(l);
+    
     for (i = 0; i < n; i++) {
-        fprintf(f, "%d\n", l->x);
+        fprintf(f, "%d %s\n", l->x, l->name);
         l = l->next;
     }
 
@@ -137,10 +145,14 @@ LinkedList* list_fscanf(char path[]) {
     tmp->prev = NULL;
     tmp->next = NULL;
     int tmp_x, i;
+    char s[STR_LEN] = {'\0'};
     
-    for (i = 0; fscanf(f, "%d\n", &tmp_x) != EOF; i++) {
-        if (i == 0) tmp->x = tmp_x;
-        else add_tail(tmp, tmp_x);
+    for (i = 0; fscanf(f, "%d %s\n", &tmp_x, s) != EOF; i++) {
+        if (i == 0) {
+            tmp->x = tmp_x;
+            memcpy(tmp->name, s, STR_LEN);
+        }
+        else add_tail(tmp, tmp_x, s);
     }
 
     fclose(f);
