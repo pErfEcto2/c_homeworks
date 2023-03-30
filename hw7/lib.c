@@ -8,24 +8,36 @@ void linked_print(LinkedList* l) {
     }
 }
 
-void add_tail(LinkedList* l, int x, char name[]) {
-    if (l->next == NULL) {
-        LinkedList* tmp = malloc(sizeof(LinkedList));
-        
-        tmp->x = x;
-        memcpy(tmp->name, name, STR_LEN);
-        tmp->next = NULL;
-        tmp->prev = l;
-        l->next = tmp;
+LinkedList* add_tail(LinkedList* l, int x, char name[]) {
+    if (l->x == 0 && !strcmp(l->name, "\0")) {
+        l->x = x;
+        memcpy(l->name, name, STR_LEN);
+        l->next = NULL;
+        l->prev = NULL;
+        return l;
     }
-    else {
-        add_tail(l->next, x, name);
-    }
+
+    LinkedList* res = l;
+    while (l->next != NULL) l = l->next;
+
+    LinkedList* tmp = malloc(sizeof(LinkedList));
+    tmp->x = x;
+    memcpy(tmp->name, name, STR_LEN);
+    tmp->prev = l;
+    l->next = tmp;
+    return res;
 }
 
 LinkedList* add_head(LinkedList* l, int x, char name[]) {
-    LinkedList* tmp = malloc(sizeof(LinkedList));
+    if (l->x == 0 && !strcmp(l->name, "\0")) {
+        l->x = x;
+        memcpy(l->name, name, STR_LEN);
+        l->next = NULL;
+        l->prev = NULL;
+        return l;
+    }
 
+    LinkedList* tmp = malloc(sizeof(LinkedList));
     if (tmp == NULL)
         exit(1);
     
@@ -34,7 +46,6 @@ LinkedList* add_head(LinkedList* l, int x, char name[]) {
     tmp->prev = NULL;
     tmp->x = x;
     memcpy(tmp->name, name, STR_LEN);
-    l->prev = tmp;
     return tmp;
 }
 
@@ -96,8 +107,7 @@ void swap(LinkedList* l, int first, int second) {
     l->x = tmp->x;
     tmp->x = temp.x;
     memcpy(l->name, tmp->name, STR_LEN);
-    memcpy(tmp->name, temp.name, STR_LEN);
-    
+    memcpy(tmp->name, temp.name, STR_LEN);   
 }
 
 LinkedList get(LinkedList* l, int n) {

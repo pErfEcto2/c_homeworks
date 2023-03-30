@@ -6,13 +6,6 @@ int main(int argc, char* argv[]) {
     LinkedList* l = malloc(sizeof(LinkedList));
     if (l == NULL)
         exit(1);
-    
-    l->x = 10;
-    l->next = NULL;
-    l->prev = NULL;
-    memcpy(l->name, "misha", STR_LEN);
-    printf("Before add_tail(%d):\n", len(l));
-    linked_print(l);
 
     int i, j;
     for (i = 0; i < N; i++) {

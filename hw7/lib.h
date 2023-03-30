@@ -16,13 +16,14 @@ typedef struct LinkedList {
 } LinkedList;
 
 void linked_print(LinkedList* l);
-void add_tail(LinkedList* l, int x, char name[]);
+LinkedList* add_tail(LinkedList* l, int x, char name[]);
 LinkedList* add_head(LinkedList* l, int x, char name[]);
 LinkedList* del_head(LinkedList* l);
 void del_tail(LinkedList* l);
 int len(LinkedList* l);
-void swap(LinkedList* l1, int i, int j);
 LinkedList get(LinkedList* l, int n);
+
+void swap(LinkedList* l1, int i, int j);
 void select_sort(LinkedList* l);
 void list_fprintf(LinkedList* l, char path[]);
 LinkedList* list_fscanf(char path[]);
