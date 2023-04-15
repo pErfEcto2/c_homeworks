@@ -5,17 +5,15 @@
 #include <string.h>
 #include <time.h>
 
+#define N 5
 
-typedef struct Node {
-    double x;
-    char operation;
-    struct Node* next;
-} Node;
+typedef struct LinkedList {
+  double x;
+  struct LinkedList *next;
+} LinkedList;
 
-void node_print(Node* node);
-Node* push(Node* node, double x, char oper);
-Node* del_head(Node* node);
-Node get(Node* node, int n);
-Node pop(Node** node);
-int len(Node* n);
-
+void linked_print(LinkedList *l);
+LinkedList *add_head(LinkedList *l, double x);
+LinkedList *del_head(LinkedList *l);
+int len(LinkedList *l);
+LinkedList get(LinkedList *l, int n);

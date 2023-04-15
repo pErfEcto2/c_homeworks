@@ -1,66 +1,65 @@
 #include "lib.h"
 
-
-void node_print(Node* node) {    
-    while (node != NULL) {
-        printf("%f %c\n", node->x, node->operation);
-        node = node->next;
-    }
+void linked_print(LinkedList *l) {
+  while (l != NULL) {
+    printf("%lF\n", l->x);
+    l = l->next;
+  }
 }
 
-Node* push(Node* node, double x, char oper) {
-    if (node->x == 0 && node->operation == '\0') {
-        node->x = x;
-        node->operation = oper;
-        node->next = NULL;
-        return node;
-    }
+LinkedList *add_head(LinkedList *l, double x) {
+  if (l == NULL) {
+    l = malloc(sizeof(LinkedList));
+    if (l == NULL)
+      exit(1);
+    l->x = x;
+    l->next = NULL;
+  }
 
-    Node* tmp = malloc(sizeof(Node));
-    if (tmp == NULL)
-        exit(1);
-    
-    tmp->next = node;
-    tmp->x = x;
-    tmp->operation = oper;
-    return tmp;
+  if (l->x == 0.0) {
+    l->x = x;
+    l->next = NULL;
+    return l;
+  }
+
+  LinkedList *tmp = malloc(sizeof(LinkedList));
+  if (tmp == NULL)
+    exit(1);
+
+  tmp->next = l;
+  tmp->x = x;
+  return tmp;
 }
 
-Node* del_head(Node* node) {
-    if (node == NULL) return NULL;
-    if (node->next == NULL) {
-        free(node);
-        return NULL;
-    }
-    Node* tmp = node->next;
-    free(node);
-    return tmp;
+LinkedList *del_head(LinkedList *l) {
+  if (l == NULL)
+    return NULL;
+  else if (l->next == NULL) {
+    free(l);
+    l = NULL;
+    return NULL;
+  }
+  LinkedList *tmp = l->next;
+  free(l);
+  l = NULL;
+  return tmp;
 }
 
-Node get(Node* node, int n) {
-    int i;
-    for (i = 0; i < n; i++) {
-        node = node->next;
-    }
-    return *node;
+int len(LinkedList *l) {
+  int res = 0;
+  while (l != NULL) {
+    res++;
+    l = l->next;
+  }
+  return res;
 }
 
-Node pop(Node** node) {
-    Node res = get(*node, 0);
-    *node = del_head(*node);
-    return res;
-}
-
-int len(Node* n) {
-    int res = 0;
-    if (n == NULL) return 0;
-
-    if (n->x == 0 && n->operation == '\0')
-        return 0;
-    
-    while (n != NULL) {
-        res++;
-        n = n->next;
-    }
-    return res;
+LinkedList get(LinkedList *l, int n) {
+  if (n > len(l))
+    exit(3);
+  int i;
+  for (i = 0; i < n; i++) {
+    l = l->next;
+  }
+  return *l;
 }
