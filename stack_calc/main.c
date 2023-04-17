@@ -8,16 +8,27 @@ int main(int argc, char *argv[]) {
     exit(1);
 
   char c;
+  char flag = 'n';
 
   while ((c = getchar()) != EOF) {
     if (c == '\n') {
       break;
-    } else if (c == ' ')
+    } else if (c == ' ') {
+      flag = 's';
       continue;
+    }
 
     switch (c) {
     case '0' ... '9':
-      numbers = add_head(numbers, (double)(c - '0'));
+      if (flag == 's') {
+        numbers = add_head(numbers, (double)(c - '0'));
+        flag = 'n';
+      } else {
+        double a = get(numbers, 0).x;
+        numbers = del_head(numbers);
+        a = a * 10 + c - '0';
+        numbers = add_head(numbers, a);
+      }
       break;
 
     case '+':
@@ -34,12 +45,12 @@ int main(int argc, char *argv[]) {
       double b = get(numbers, 0).x;
       numbers = del_head(numbers);
 
-      a = (c == '+') ? a + b : a;
-      a = (c == '-') ? a - b : a;
-      a = (c == '*') ? a * b : a;
-      a = (c == '/') ? a / b : a;
+      b = (c == '+') ? b + a : b;
+      b = (c == '-') ? b - a : b;
+      b = (c == '*') ? b * a : b;
+      b = (c == '/') ? b / a : b;
 
-      numbers = add_head(numbers, a);
+      numbers = add_head(numbers, b);
       break;
     }
   }
