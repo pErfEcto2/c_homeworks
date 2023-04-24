@@ -1,5 +1,5 @@
 build:
-	gcc -o app -Wall lib.c main.c
+	gcc -o app -Wall -ansi lib.c main.c
 
 clear:
 	rm app *.o *.txt
