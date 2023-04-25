@@ -17,6 +17,8 @@ int main(void) {
   res2 = get(h, "test");
   printf("%s %s\n", res1, res2);
 
+  print_table(h);
+
   free_table(h);
 
   return 0;

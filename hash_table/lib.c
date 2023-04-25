@@ -85,3 +85,13 @@ void free_table(HashTable *ht) {
   }
   free(ht);
 }
+
+void print_table(HashTable *ht) {
+  int i;
+  for (i = 0; i < N; i++) {
+    if (ht->buckets[i] != NULL)
+      printf("index: %d; key: %s; value: %s\n", ht->buckets[i]->index,
+             ht->buckets[i]->key, ht->buckets[i]->value);
+  }
+  printf("size: %d; count: %d\n", ht->size, ht->count);
+}

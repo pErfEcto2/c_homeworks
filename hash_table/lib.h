@@ -26,3 +26,4 @@ char *get(HashTable *ht, char key[]);
 void delete_element(HashTable *ht, char key[]);
 void set(HashTable *ht, char key[], char value[]);
 void free_table(HashTable *ht);
+void print_table(HashTable *ht);
