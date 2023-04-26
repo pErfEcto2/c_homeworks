@@ -48,6 +48,7 @@ void set(HashTable *ht, char key[], char value[]) {
 
   if (ht->buckets[index] == NULL) {
     ht->buckets[index] = create_bucket(key, value, index);
+    ht->count++;
     return;
   }
   char *tmp_k = ht->buckets[index]->key;
@@ -71,7 +72,8 @@ void delete_element(HashTable *ht, char *key) {
     return;
   free(ht->buckets[index]->value);
   free(ht->buckets[index]->key);
-  free(ht->buckets[index]);
+  ht->buckets[index] = NULL;
+  ht->count--;
 }
 
 void free_table(HashTable *ht) {
@@ -89,9 +91,10 @@ void free_table(HashTable *ht) {
 void print_table(HashTable *ht) {
   int i;
   for (i = 0; i < N; i++) {
-    if (ht->buckets[i] != NULL)
-      printf("index: %d; key: %s; value: %s\n", ht->buckets[i]->index,
-             ht->buckets[i]->key, ht->buckets[i]->value);
+    if (ht->buckets[i] == NULL)
+      continue;
+    printf("index: %d; key: %s; value: %s\n", ht->buckets[i]->index,
+           ht->buckets[i]->key, ht->buckets[i]->value);
   }
   printf("size: %d; count: %d\n", ht->size, ht->count);
 }

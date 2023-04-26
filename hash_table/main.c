@@ -17,6 +17,13 @@ int main(void) {
   res2 = get(h, "test");
   printf("%s %s\n", res1, res2);
 
+  printf("\n");
+  print_table(h);
+
+  delete_element(h, "1");
+  delete_element(h, "2");
+
+  printf("\n");
   print_table(h);
 
   free_table(h);
