@@ -38,6 +38,14 @@ BinTree *min(BinTree *tree) {
   return min(tree->left);
 }
 
+BinTree *max(BinTree *tree) {
+  if (tree == NULL)
+    return tree;
+  else if (tree->right == NULL)
+    return tree;
+  return max(tree->right);
+}
+
 BinTree *get(BinTree *tree, int val) {
   if (tree == NULL)
     return NULL;
